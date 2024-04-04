@@ -20,57 +20,14 @@ Route::get('/home', function () {
     return 'Pagina de inicio';
 });
 
-Route::get('/notas', function (){
+//Routa , [Controlador,Metodo]
+Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name('notes.index');
 
-    /*
-     * $notes = DB::table('notes')->get();
-     * aqui nos conectamos a la base de datos y cogemos los datos
-     */
+//Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
 
-    //Aqui estamos utilizando el modelo Note creado anteriormente
-    //$notes = Note::all();
+Route::get('/notas/crear',[\App\Http\Controllers\NoteController::class,'create'])->name('notes.create');
 
-    $notes = Note::query()
-        ->orderByDesc('id')
-        ->get();
-
-
-    return view('notes.index')->with('notes',$notes); //resources/views
-
-})->name('notes.index');
-
-Route::get('/notas/crear', function (){
-
-    return view('notes.create');
-
-})->name('notes.create');
-
-Route::post('/notas', function (\Illuminate\Http\Request $request){
-
-    //Validacion de datos
-    $request->validate([
-        'title' => 'required',
-        'content' => 'required',
-    ]);
-
-    //Note::create(Request::all()).'Notas Creada';
-    Note::create([
-
-        'title' => $request->input('title'),
-        'content' => $request->input('content'),
-
-    ]);
-
-    //return redirect()->route('notes.index');
-    return back();
-
-})->name('notes.store'); //Convencion para rutas de tipo recurso
-
-Route::get('/notas/{$detalle}', function ($detalle){
-
-    return 'detalle de la nota'.$detalle;
-
-})->name('notes.detalle');;
+Route::post('/notas',[\App\Http\Controllers\NoteController::class,'store'])->name('notes.store'); //Convencion para rutas de tipo recurso
 
 //Editar las notas mediante el $id
 Route::get('/notas/{id}/editar', function ($id) {
@@ -82,7 +39,7 @@ Route::get('/notas/{id}/editar', function ($id) {
     abort_if($notes === null, 404);
 
     // Devuelve un mensaje junto con el resultado de la búsqueda
-    return 'Editar notas: ' . $notes->find($id);
+    return 'Editar notas: '.$notes->find($id);
 
 })  ->name('notes.edit')
     ->where('id', '\d+');
