@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Note;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,32 +23,64 @@ Route::get('/home', function () {
 
 Route::get('/notas', function (){
 
-    $notes = \Illuminate\Support\Facades\DB::table('notes')->get();
+    /*
+     * $notes = DB::table('notes')->get();
+     * aqui nos conectamos a la base de datos y cogemos los datos
+     */
+
+    //Aqui estamos utilizando el modelo Note creado anteriormente
+    //$notes = Note::all();
+
+    $notes = Note::query()
+        ->orderByDesc('id')
+        ->get();
+
 
     return view('notes.index')->with('notes',$notes); //resources/views
 
 })->name('notes.index');
 
 Route::get('/notas/crear', function (){
+
     return view('notes.create');
+
 })->name('notes.create');
 
+Route::post('/notas', function (){
+
+    //Note::create(Request::all()).'Notas Creada';
+    Note::create([
+
+        'title' => Request::input('title'),
+        'content' => Request::input('content'),
+
+    ]);
+
+    return redirect()->route('notes.index');
+
+})->name('notes.store'); //Convencion para rutas de tipo recurso
+
 Route::get('/notas/{$detalle}', function ($detalle){
+
     return 'detalle de la nota'.$detalle;
-});
-/*
+
+})->name('notes.detalle');;
+
 //Editar las notas mediante el $id
 Route::get('/notas/{id}/editar', function ($id) {
+
     // Asegúrate de definir y asignar un valor a la variable $notes
-    $notes = Nota::findOrFaill($id);
+    $notes = Note::all($id);
 
     // Verifica si la nota existe antes de continuar
     abort_if($notes === null, 404);
 
     // Devuelve un mensaje junto con el resultado de la búsqueda
     return 'Editar notas: ' . $notes->find($id);
-})->where('id', '\d+');
-*/
+
+})  ->name('notes.edit')
+    ->where('id', '\d+');
+
 
 //Aqui le estas indicando que solo se pueden utilizar numeros
 

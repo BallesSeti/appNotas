@@ -17,7 +17,7 @@ class NoteSeeder extends Seeder
     {
         for ($i = 1; $i <= 5; $i++) {
             DB::table('notes')->insert([
-                'title' => 'Nota ' . $i,
+                'title' => 'Tarea ' . $i,
                 'content' => 'Contenido',
             ]);
         }
