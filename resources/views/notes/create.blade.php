@@ -18,10 +18,28 @@
                     @csrf
 
                     <label for="title" class="field-label">Título: </label>
-                    <input type="text" name="title" id="title" class="field-input">
+                    <input type="text" name="title" id="title" class="field-input ">
+                    {{-- Control de errores por cada campo--}}
+                    @error('title')
+
+                        <p class="error-menssage">{{$message}}</p>
+
+                    @enderror
 
                     <label for="content" class="field-label">Contenido:</label>
                     <textarea name="content" id="content" rows="10" class="field-textarea"></textarea>
+                    @error('content')
+
+                    <p class="error-menssage">{{$message}}</p>
+
+
+                    @enderror
+
+                    @if ($errors->any())
+                        <x-alert type="error">
+                        </x-alert>
+                    @endif
+
 
                     <button type="submit" class="btn btn-primary">Crear nota</button>
                 </form>

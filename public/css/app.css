@@ -312,5 +312,12 @@ body {
   margin: 0;
   padding: 16px;
 }
+.error-menssage{
+    color: red;
+    font-family: "Arial";
+    font-size: 16px;
+    font-weight: bold;
+    font-style: italic; 
+}
 
 /*# sourceMappingURL=app.css.map */

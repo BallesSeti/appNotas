@@ -1,8 +1,7 @@
 <?php
 
 use App\Models\Note;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,17 +45,24 @@ Route::get('/notas/crear', function (){
 
 })->name('notes.create');
 
-Route::post('/notas', function (){
+Route::post('/notas', function (\Illuminate\Http\Request $request){
+
+    //Validacion de datos
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+    ]);
 
     //Note::create(Request::all()).'Notas Creada';
     Note::create([
 
-        'title' => Request::input('title'),
-        'content' => Request::input('content'),
+        'title' => $request->input('title'),
+        'content' => $request->input('content'),
 
     ]);
 
-    return redirect()->route('notes.index');
+    //return redirect()->route('notes.index');
+    return back();
 
 })->name('notes.store'); //Convencion para rutas de tipo recurso
 
