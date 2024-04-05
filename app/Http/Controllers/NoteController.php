@@ -9,51 +9,54 @@ class NoteController extends Controller
 {
     public function index()
     {
-
-        $notes = Note::query()
-            ->orderByDesc('id')
-            ->get();
-
-
-        return view('notes.index')->with('notes', $notes); //resources/views
+        $notes = Note::all();
+        return view('notes.index')->with('notes', $notes);
     }
 
     public function create()
     {
         return view('notes.create');
     }
-/*
-    public function show($id)
-    {
-       return 'Detalle de la nota '.$id;
-    }
-*/
+
     public function store(Request $request)
     {
-        //Validacion de datos
         $request->validate([
             'title' => 'required',
             'content' => 'required',
         ]);
 
-        //Note::create(Request::all()).'Notas Creada';
         Note::create([
-
             'title' => $request->input('title'),
             'content' => $request->input('content'),
-
         ]);
 
         return redirect('notas');
-        //return back();
     }
-    public function edit()
+
+    public function edit($id)
     {
-        $notes = Note::query()
-            ->orderByDesc('id')
-            ->get();
-
-        return view('notes.index')->with('notes',$notes);
+        $note = Note::findOrFail($id);
+        return view('notes.create', compact('note'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $note = Note::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $note->update([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
+
+        return redirect('notas');
+    }
+    public function destroy($id)
+    {
+        return 'eliminando nota'.$id;
+    }
 }

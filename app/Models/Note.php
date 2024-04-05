@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     //Indicamos atraves de la propiedad fillable los datos que si queremos guardar
-    protected $fillable = ['title','content'];
-    public function editUr()
+    protected $fillable = [
+        'title',
+        'content'
+    ];
+    public function getEditUrl()
     {
-        return route('notes.edit',['id' => $this -> $id]);
+            return route('notes.edit',['id' => $this -> id]);
     }
+
 }

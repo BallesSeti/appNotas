@@ -17,50 +17,51 @@
 
                         {{-- Acciones de edición y eliminación --}}
                         <footer class="card-footer">
-                            {{-- href="{{url('notas',$note -> id )}}" class="action-link action-edit">--}}
-                            <a href="{{$note -> editUrl}}" class="action-link action-edit">
+                            {{-- <a href="{{ $note->getEditUrlAttribute }}" class="action-link action-edit">--}}
+                            <a href="{{ $note->getEditUrl() }}" class="action-link action-edit">
                                 <i class="icon icon-pen"></i>
                             </a>
-                            <a class="action-link action-delete">
-                                <i class="icon icon-trash"></i>
-                            </a>
-                        </footer>
-                    </div>
-                @endforeach
+                         </a>
+                         <a class="action-link action-delete">
+                             <i class="icon icon-trash"></i>
+                         </a>
+                     </footer>
+                 </div>
+             @endforeach
 
-                {{--
-                                <div class="cards">
-                               // <?php foreach ($notes as $note): ?>
-                                @forelse($notes as $note)
+             {{--
+                             <div class="cards">
+                            // <?php foreach ($notes as $note): ?>
+                             @forelse($notes as $note)
 
-                                <div class="card card-small">
-                                    <div class="card-body">
-                                        //Sintaxis de blade
-                                        //Nos protege de intento de robo de codigo
-                                        <h4>{{ $note }}</h4>
-                                        //Sintaxis php
-                                        <p>
-                                            <?php echo $note; ?>
-                                        </p>
-                                    </div>
+                             <div class="card card-small">
+                                 <div class="card-body">
+                                     //Sintaxis de blade
+                                     //Nos protege de intento de robo de codigo
+                                     <h4>{{ $note }}</h4>
+                                     //Sintaxis php
+                                     <p>
+                                         <?php echo $note; ?>
+                                     </p>
+                                 </div>
 
-                                    <footer class="card-footer">
-                                        <a class="action-link action-edit">
-                                            <i class="icon icon-pen"></i>
-                                        </a>
-                                        <a class="action-link action-delete">
-                                            <i class="icon icon-trash"></i>
-                                        </a>
-                                    </footer>
-                                </div>
-                                //<?php endforeach;?>
+                                 <footer class="card-footer">
+                                     <a class="action-link action-edit">
+                                         <i class="icon icon-pen"></i>
+                                     </a>
+                                     <a class="action-link action-delete">
+                                         <i class="icon icon-trash"></i>
+                                     </a>
+                                 </footer>
+                             </div>
+                             //<?php endforeach;?>
 
-                                    @empty
-                                    <p>
-                                        no tenemos notas
-                                    </p>
-                               @endforelse
-                                    --}}
+                                 @empty
+                                 <p>
+                                     no tenemos notas
+                                 </p>
+                            @endforelse
+                                 --}}
             </div>
         </main>
 </x-layout>

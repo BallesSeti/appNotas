@@ -22,29 +22,14 @@ Route::get('/home', function () {
 
 //Routa , [Controlador,Metodo]
 Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name('notes.index');
-
 //Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
-
 Route::get('/notas/crear',[\App\Http\Controllers\NoteController::class,'create'])->name('notes.create');
-
 Route::post('/notas',[\App\Http\Controllers\NoteController::class,'store'])->name('notes.store'); //Convencion para rutas de tipo recurso
+Route::put('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'edit'])->name('notes.edit');
+//Route::post('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
+Route::delete('/notas/{id}', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
 
-//Editar las notas mediante el $id
-Route::get('/notas/{id}/editar', function ($id) {
-
-    // Asegúrate de definir y asignar un valor a la variable $notes
-    $notes = Note::all($id);
-
-    // Verifica si la nota existe antes de continuar
-    abort_if($notes === null, 404);
-
-    // Devuelve un mensaje junto con el resultado de la búsqueda
-    return 'Editar notas: '.$notes->find($id);
-
-})  ->name('notes.edit')
-    ->where('id', '\d+');
-
-
+/*
 //Aqui le estas indicando que solo se pueden utilizar numeros
 
 Route::get('cursos', function (){
@@ -55,4 +40,5 @@ Route::get('cursos', function (){
             'Curso 3',
         ]
     ];
-});
+}
+*/
