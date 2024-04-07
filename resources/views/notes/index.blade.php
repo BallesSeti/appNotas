@@ -13,8 +13,16 @@
                                     {{--<?php echo $note; ?>--}}
                                 {{$note -> content}}
                             </p>
-                        </div>
 
+                            <form method="POST" action="{{route('notes.destroy',$note)}}">
+                                @method('DELETE')
+                                @csrf
+                            {{--<input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{csrf_token()}}}">--}}
+                                <button>Eliminar</button>
+                            </form>
+
+                        </div>
                         {{-- Acciones de edición y eliminación --}}
                         <footer class="card-footer">
                             {{-- <a href="{{ $note->getEditUrlAttribute }}" class="action-link action-edit">--}}

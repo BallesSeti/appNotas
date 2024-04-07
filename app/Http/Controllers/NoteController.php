@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller
 {
@@ -57,6 +58,12 @@ class NoteController extends Controller
     }
     public function destroy($id)
     {
-        return 'eliminando nota'.$id;
+        /*
+        $note = Note::findOrFail($id);
+        $note->delete();
+        */
+        DB::table('notes')->where('id',$id)->delete();
+        return redirect()->route('notes.index');
     }
+
 }

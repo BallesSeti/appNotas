@@ -25,9 +25,10 @@ Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name
 //Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
 Route::get('/notas/crear',[\App\Http\Controllers\NoteController::class,'create'])->name('notes.create');
 Route::post('/notas',[\App\Http\Controllers\NoteController::class,'store'])->name('notes.store'); //Convencion para rutas de tipo recurso
-Route::put('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'edit'])->name('notes.edit');
-//Route::post('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
-Route::delete('/notas/{id}', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
+Route::get('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'edit'])->name('notes.edit');
+Route::put('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
+Route::patch('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
+Route::delete('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
 
 /*
 //Aqui le estas indicando que solo se pueden utilizar numeros

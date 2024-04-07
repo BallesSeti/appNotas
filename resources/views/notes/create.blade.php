@@ -10,11 +10,11 @@
 
                 <form
                     action="{{ isset($note) ? route('notes.update', $note->id) : route('notes.store') }}"
-                    method="POST"
+                    method="POST">
                 @if(isset($note))
                     @method('PUT')
                     @endif
-                >
+
                 {{--
                     Sirve a modo de seguridad para que un sitio web
                     malicioso no pueda enviar solicitudes no autorizadas a un
