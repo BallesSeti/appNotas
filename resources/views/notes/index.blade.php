@@ -1,10 +1,14 @@
 <x-layout>
+    {{--VITE Carga de archivos dinamicas--}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/button.css') }}">
+    <script src="{{ asset('js/notes/index.js') }}"></script>º
         <main class="content">
             <table id="myTable" class="display">
                 <thead>
                 <tr>
                     <th>Title</th>
                     <th>Content</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -12,18 +16,18 @@
                     <tr>
                         <td>{{ $note->title }}</td>
                         <td>{{ $note->content }}</td>
+                        <td>
+                            <div>
+                                <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>
+                                <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>
+                                @method('DELETE')
+                                @csrf
+                            </div>
+
+                        </td>
                     </tr>
                 @endforeach
             </table>
-
-            <script>
-
-                alert("Hola");
-                $(document).ready( function () {
-                    $('#myTable').DataTable();
-                } );
-                alert("funciono");
-            </script>
             </tbody>
                         {{-- Acciones de edición y eliminación --}}
                         {{--

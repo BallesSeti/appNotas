@@ -1,0 +1,19 @@
+div {
+    margin: 10px;
+}
+
+a.btn-secondary, a.btn-danger {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+a.btn-secondary {
+    background-color: grey; /* Puedes ajustar el color según tus preferencias */
+}
+
+a.btn-danger {
+    background-color: red; /* Puedes ajustar el color según tus preferencias */
+}
