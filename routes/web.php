@@ -29,6 +29,7 @@ Route::get('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'e
 Route::put('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::patch('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::delete('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
+Route::post('/notas/all', [\App\Http\Controllers\NoteController::class,'all']);
 
 /*
 //Aqui le estas indicando que solo se pueden utilizar numeros
