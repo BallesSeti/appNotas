@@ -46,6 +46,7 @@ class NoteController extends Controller
 
     public function update(Request $request, $id)
     {
+        error_log("Entramos en el metodo UPDATE");
         $note = Note::findOrFail($id);
 
         $request->validate([
@@ -62,6 +63,7 @@ class NoteController extends Controller
     }
     public function destroy($id)
     {
+        error_log("Entramos en el metodo destroy");
         /*
         $note = Note::findOrFail($id);
         $note->delete();
@@ -69,5 +71,6 @@ class NoteController extends Controller
         DB::table('notes')->where('id',$id)->delete();
         return redirect()->route('notes.index');
     }
+
 
 }

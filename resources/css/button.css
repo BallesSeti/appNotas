@@ -2,7 +2,7 @@ div {
     margin: 10px;
 }
 
-button.btn-secondary, a.btn-danger {
+a.btn-secondary, a.btn-danger {
     text-decoration: none;
     color: white;
     padding: 10px 20px;
@@ -10,10 +10,10 @@ button.btn-secondary, a.btn-danger {
     font-weight: bold;
 }
 
-button.btn-secondary {
+a.btn-secondary {
     background-color: grey; /* Puedes ajustar el color según tus preferencias */
 }
 
-button.btn-danger {
+a.btn-danger {
     background-color: red; /* Puedes ajustar el color según tus preferencias */
 }

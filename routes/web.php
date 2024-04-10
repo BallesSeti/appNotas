@@ -21,6 +21,7 @@ Route::get('/home', function () {
 });
 
 //Routa , [Controlador,Metodo]
+Route::redirect('/', '/notas');
 Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name('notes.index');
 //Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
 Route::get('/notas/crear',[\App\Http\Controllers\NoteController::class,'create'])->name('notes.create');

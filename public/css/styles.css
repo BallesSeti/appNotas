@@ -17,3 +17,8 @@
     cursor: pointer;
     transition: 0.3s;
 }
+/*estilos para la tabla*/
+table th {
+    background-color: #0001;
+    color: white;
+}

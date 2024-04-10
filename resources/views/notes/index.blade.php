@@ -1,83 +1,66 @@
 <x-layout>
-    {{--VITE Carga de archivos dinamicas--}}
+    {{--VITE Carga de archivos dinámicas--}}
+
     <link rel="stylesheet" type="text/css" href="{{ asset('css/button.css') }}">
-    <script src="{{ asset('js/notes/index.js') }}"></script>º
-        <main class="content">
-            <table id="myTable" class="display">
-                <thead>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css">
+
+    <main class="content">
+        <table id="myTable" class="display">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($notes as $note)
                 <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Action</th>
+                    <td>{{ $note->title }}</td>
+                    <td>{{ $note->content }}</td>
+                    <td>
+                        <div>
+                            <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>
+                            <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>
+                        </div>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                @foreach ($notes as $note)
-                    <tr>
-                        <td>{{ $note->title }}</td>
-                        <td>{{ $note->content }}</td>
-                        <td>
-                            <div>
-                                <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>
-                                <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>
-                                @method('DELETE')
-                                @csrf
-                            </div>
-
-                        </td>
-                    </tr>
-                @endforeach
-            </table>
+            @endforeach
             </tbody>
-                        {{-- Acciones de edición y eliminación --}}
-                        {{--
-                        <footer class="card-footer">
-                            {{-- <a href="{{ $note->getEditUrlAttribute }}" class="action-link action-edit">--}}{{--
-                            <a href="{{ $note->getEditUrl() }}" class="action-link action-edit">
-                                <i class="icon icon-pen"></i>
-                            </a>
-                         </a>
-                         <a href="{{route('notes.destroy',$note)}}" class="action-link action-delete">
-                             @method('DELETE')
-                             @csrf
-                             <i class="icon icon-trash"></i>
-                         </a>
-                     </footer>
-                        --}}
-             {{--
-                             <div class="cards">
-                            // <?php foreach ($notes as $note): ?>
-                             @forelse($notes as $note)
+        </table>
+    </main>
 
-                             <div class="card card-small">
-                                 <div class="card-body">
-                                     //Sintaxis de blade
-                                     //Nos protege de intento de robo de codigo
-                                     <h4>{{ $note }}</h4>
-                                     //Sintaxis php
-                                     <p>
-                                         <?php echo $note; ?>
-                                     </p>
-                                 </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('js/datatables.js') }}"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+    <script>
 
-                                 <footer class="card-footer">
-                                     <a class="action-link action-edit">
-                                         <i class="icon icon-pen"></i>
-                                     </a>
-                                     <a class="action-link action-delete">
-                                         <i class="icon icon-trash"></i>
-                                     </a>
-                                 </footer>
-                             </div>
-                             //<?php endforeach;?>
+        $(document).ready(function(){
+            var table = $('#myTable').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true
+            });
 
-                                 @empty
-                                 <p>
-                                     no tenemos notas
-                                 </p>
-                            @endforelse
-                                 --}}
-        </main>
+            //Creamos una fila en el head de la tabla y lo clonamos para cada columna
+            $('#myTable thead tr').clone(true).appendTo( '#myTable thead' );
+
+            $('#myTable thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text(); //es el nombre de la columna
+                $(this).html( '<input type="text" placeholder="Search...'+title+'" />' );
+
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        });
+    </script>
+
 </x-layout>
-
-
