@@ -12,9 +12,10 @@ class Note extends Model
         'title',
         'content'
     ];
-    public function getEditUrl()
+    public function getEditUrlAttribute()
     {
-            return route('notes.edit',['id' => $this -> id]);
+        return route('notes.edit', ['id' => $this->id]);
     }
+
 
 }

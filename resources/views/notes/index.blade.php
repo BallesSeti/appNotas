@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link rel="" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css">
 
+    {{-- Material disein --}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <main class="content">
         <table id="myTable" class="display">
             <thead>
@@ -22,8 +26,15 @@
                     <td>{{ $note->content }}</td>
                     <td>
                         <div>
-                            <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>
-                            <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>
+                            <button class="material-symbols-outlined"><a href="{{ $note->editUrl  }}">edit</a></button>
+                                <form action="{{ route('notes.destroy', $note->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta nota?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="material-symbols-outlined" style="color:#AF0C0C">delete</button>
+                            </form>
+
+{{--                            <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>--}}
+{{--                            <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>--}}
                         </div>
                     </td>
                 </tr>
