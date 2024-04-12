@@ -1,25 +1,15 @@
 <x-layout>
     {{--VITE Carga de archivos dinámicas--}}
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/button.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link rel="" href="https://cdn.datatables.net/fixedheader/3.1.6/css/fixedHeader.dataTables.min.css">
-
-    {{-- Material disein --}}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
     <main class="content">
         <table id="myTable" class="display">
             <thead>
             <tr>
                 <th>Title</th>
                 <th>Content</th>
-                <th>Action</th>
+                {{--<th>Action</th>--}}
             </tr>
             </thead>
-            <tbody>
+            {{--<tbody>
             @foreach ($notes as $note)
                 <tr>
                     <td>{{ $note->title }}</td>
@@ -30,47 +20,37 @@
                                 <form action="{{ route('notes.destroy', $note->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta nota?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="material-symbols-outlined" style="color:#AF0C0C">delete</button>
+                                <button type="submit" class="material-symbols-outlined" style="color:#AF0C0C">delete</button>º
                             </form>
 
-{{--                            <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>--}}
-{{--                            <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>--}}
+--}}{{--                            <a class="btn-secondary" href="{{ $note->getEditUrlAttribute }}">Editar</a>--}}{{--
+--}}{{--                            <a class="btn-danger" href="{{route('notes.destroy',$note)}}">Borrar</a>--}}{{--
                         </div>
                     </td>
                 </tr>
             @endforeach
-            </tbody>
+            </tbody>--}}
         </table>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('js/datatables.js') }}"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+    {{--<script src="{{ asset('js/notes/index.js') }}"></script>--}}
+
     <script>
-
-        $(document).ready(function(){
-            var table = $('#myTable').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true
+            $(document).ready(function() {
+            $('#myTable').DataTable({
+                "ajax": "{{ route('data.get') }}", // Ruta para obtener los datos del controlador
+                "columns": [
+                    { "data": "title" },
+                    { "data": "content" },
+                    // Definir columnas adicionales si es necesario
+                ],
+                "searching": false, // Desactivar la funcionalidad de búsqueda
+                "lengthChange": false, // Desactivar la opción de cambiar la cantidad de entradas mostradas
+                "pageLength": 5 // Establecer la cantidad predeterminada de entradas mostradas por página
             });
-
-            //Creamos una fila en el head de la tabla y lo clonamos para cada columna
-            $('#myTable thead tr').clone(true).appendTo( '#myTable thead' );
-
-            $('#myTable thead tr:eq(1) th').each( function (i) {
-                var title = $(this).text(); //es el nombre de la columna
-                $(this).html( '<input type="text" placeholder="Search...'+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
         });
     </script>
 

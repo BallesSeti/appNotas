@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{$title ?? 'App de notas'}}</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('js/datatables.js') }}"></script>
+    <x-styles></x-styles>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -30,7 +27,7 @@
             </ul>
         </nav>
     </header>
-     {{--@yield('content')--}}
+     {{--@yield('content') es la otra manera o compoentes o secciones--}}
     {{$slot}}
     <footer class="foot">
         <div class="ad">
