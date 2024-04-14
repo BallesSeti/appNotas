@@ -72,5 +72,27 @@ class NoteController extends Controller
         return redirect()->route('notes.index');
     }
 
+    public function getData(Request $request)
+    {
+        $length = $request->input('length', 10);
+        $page = $request->input('start', 0) / $length + 1;
+
+        $query = Note::query();
+        $totalRecords = $query->count();
+
+        // Aplicar cualquier filtro si es necesario
+        // Por ejemplo: $query->where('column', 'value');
+
+        $filteredRecords = $query->count();
+        $data = $query->select('id', 'title', 'content')->paginate($length);
+
+        return response()->json([
+            "draw" => intval($request->input('draw', 1)),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $filteredRecords,
+            "data" => $data->items() // Solo devuelve los datos paginados, no el objeto Paginator completo
+        ]);
+    }
+
 
 }

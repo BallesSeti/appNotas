@@ -5,6 +5,7 @@
     <title>{{$title ?? 'App de notas'}}</title>
     <x-styles></x-styles>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 <div class="wrap">
@@ -36,7 +37,7 @@
             </p>
         </div>
         <div class="license">
-            <p>{{ $currentYear }} Derechos Reservados - Seti Consultyn S.L.</p>
+            <p>{{-- {{ $currentYear }} --}} 2024 Derechos Reservados - Seti Consultyn S.L.</p>
         </div>
     </footer>
 </div>

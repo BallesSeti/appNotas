@@ -15,7 +15,7 @@
                     @method('PUT')
                     @endif
 
-                {{--
+                    {{--
                     Sirve a modo de seguridad para que un sitio web
                     malicioso no pueda enviar solicitudes no autorizadas a un
                     sitio web legítimo,aprovechando la sesion autentica del usuario

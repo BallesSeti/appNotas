@@ -24,7 +24,7 @@ class Layout extends Component
     public function render()
     {
          //return view('components.layout');
-         return view('components.app', [
+         return view('components.layout', [
              'currentYear' => date('Y'),
          ]);
     }

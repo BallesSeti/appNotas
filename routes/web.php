@@ -24,13 +24,13 @@ Route::get('/home', function () {
 Route::redirect('/', '/notas');
 Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name('notes.index');
 //Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
+Route::delete('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
 Route::get('/notas/crear',[\App\Http\Controllers\NoteController::class,'create'])->name('notes.create');
 Route::post('/notas',[\App\Http\Controllers\NoteController::class,'store'])->name('notes.store'); //Convencion para rutas de tipo recurso
 Route::get('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'edit'])->name('notes.edit');
 Route::put('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::patch('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
-Route::delete('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
-Route::get('/notas/all', [\App\Http\Controllers\DataTablesController::class,'getData'])->name('data.get');
+Route::get('/notas/all', [\App\Http\Controllers\NoteController::class,'getData'])->name('data.get');
 
 /*
 //Aqui le estas indicando que solo se pueden utilizar numeros
