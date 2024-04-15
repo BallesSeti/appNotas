@@ -75,7 +75,7 @@ class NoteController extends Controller
     public function getData(Request $request)
     {
         $length = $request->input('length', 10);
-        $page = $request->input('start', 0) / $length + 1;
+        $start = $request->input('start', 0);
 
         $query = Note::query();
         $totalRecords = $query->count();
@@ -84,15 +84,19 @@ class NoteController extends Controller
         // Por ejemplo: $query->where('column', 'value');
 
         $filteredRecords = $query->count();
-        $data = $query->select('id', 'title', 'content')->paginate($length);
+        $data = $query->select('id', 'title', 'content')
+            ->skip($start) //Este no muestra los ya mostrados
+            ->take($length)
+            ->get();
 
         return response()->json([
             "draw" => intval($request->input('draw', 1)),
             "recordsTotal" => $totalRecords,
             "recordsFiltered" => $filteredRecords,
-            "data" => $data->items() // Solo devuelve los datos paginados, no el objeto Paginator completo
+            "data" => $data
         ]);
     }
+
 
 
 }
