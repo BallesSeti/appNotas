@@ -13,6 +13,7 @@ class NoteController extends Controller
         $notes = Note::all();
         return view('notes.index')->with('notes', $notes);
     }
+
     public function all(Request $request)
     {
         return "Hola";
@@ -61,6 +62,7 @@ class NoteController extends Controller
 
         return redirect('notas');
     }
+
     public function destroy($id)
     {
         error_log("Entramos en el metodo destroy");
@@ -68,24 +70,34 @@ class NoteController extends Controller
         $note = Note::findOrFail($id);
         $note->delete();
         */
-        DB::table('notes')->where('id',$id)->delete();
+        DB::table('notes')->where('id', $id)->delete();
         return redirect()->route('notes.index');
     }
 
     public function getData(Request $request)
     {
-        $length = $request->input('length', 10);
         $start = $request->input('start', 0);
+        $length = $request->input('length', 10);
+        $searchValue = $request->input('search.value');
+
+        \Log::info('Valor del filtro de búsqueda:', ['value' => $searchValue]); // Agregar log para imprimir el valor del filtro
 
         $query = Note::query();
+
+        // Aplicar el filtro de búsqueda si hay un valor de búsqueda
+        if (!empty($searchValue)) {
+            $query->where(function ($query) use ($searchValue) {
+                $query->where('title', 'like', '%' . $searchValue . '%')
+                    ->orWhere('content', 'like', '%' . $searchValue . '%');
+            });
+        }
+
         $totalRecords = $query->count();
 
-        // Aplicar cualquier filtro si es necesario
-        // Por ejemplo: $query->where('column', 'value');
-
+        // Aplicar paginación y límites después de aplicar el filtro
         $filteredRecords = $query->count();
         $data = $query->select('id', 'title', 'content')
-            ->skip($start) //Este no muestra los ya mostrados
+            ->skip($start)
             ->take($length)
             ->get();
 
@@ -96,7 +108,4 @@ class NoteController extends Controller
             "data" => $data
         ]);
     }
-
-
-
 }

@@ -26,11 +26,20 @@
                 "paging": true, // Habilitar paginación
                 "processing": true,
                 "serverSide": true, // Habilitar el modo de procesamiento del lado del servidor
-                "ajax": "{{ route('data.get') }}", // Ruta para obtener los datos del controlador
+                "ajax": {
+                    url: "{{ route('data.get') }}",
+                    type: 'GET',
+                    data: function (d) {
+                        // Aquí se obtiene el valor del campo de búsqueda específico dentro de la columna correspondiente
+                        d.search = {
+                            value: $('.searchField').val()
+                        };
+                    }
+                },
                 "columns": [
-                    { "data": "title" },
-                    { "data": "content" },
-                    // Aquí puedes agregar más columnas si es necesario
+                    { "data": "title", "searchable": true },
+                    { "data": "content", "searchable": true },
+            // Aquí puedes agregar más columnas si es necesario
                     {
                         "data": null,
                         "render": function (data, type, row) {
@@ -53,23 +62,27 @@
 // Obtener el número total de campos de búsqueda
             //var totalSearchFields = $('#myTable thead th').length;
 
-// Aplicar un filtro para cada columna
+// Aplicar un filtro para cada la primera columna
             $('#myTable thead th').each(function (index) {
-                var title = $(this).text();
-                var uniqueId = 'searchField_' + index; // Generar un id único para cada campo de búsqueda
-                $(this).html('<input type="search" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
+                if (index === 0) { // Agregar campo de búsqueda solo para la primera columna
+                    var title = $(this).text();
+                    var uniqueId = 'searchField_' + index; // Generar un id único para el campo de búsqueda
+                    $(this).html('<input type="search" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
+                }
             });
 
-
-            // Evento para aplicar los filtros
-            table.columns().every(function () {
+// Evento para aplicar los filtros solo en la primera columna
+            table.column(0).every(function () {
                 var that = this;
                 $('input', this.header()).on('keyup change', function () {
                     if (that.search() !== this.value) {
                         that.search(this.value).draw();
+                        console.log('Valor del filtro para la columna "content":', $('.searchField').eq(1).val()); // Verificar el valor del filtro para la columna "content"
                     }
                 });
             });
+
+
 
             // Evento clic para el botón de editar
             $('#myTable').on('click', '.editBtn', function () {
