@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Note extends Model
 {
+    public $timestamps = false;
+
     //Indicamos atraves de la propiedad fillable los datos que si queremos guardar
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'time'
     ];
     public function getEditUrlAttribute()
     {

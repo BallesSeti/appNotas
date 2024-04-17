@@ -32,15 +32,23 @@
                     @enderror
 
                     <label for="content" class="field-label">Contenido:</label>
-                    <textarea name="content" id="content" rows="10" class="field-textarea"></textarea>
+                    <textarea name="content" id="content" rows="10" class="field-textarea">@if(isset($note)){{ $note->content }}@endif</textarea>
                     @error('content')
 
                     <p class="error-menssage">{{$message}}</p>
 
 
                     @enderror
+                    <label for="time" class="field-label">Fecha:</label>
+                    <input type="date" name="time" id="time" class="field-input" value="@if(isset($note)){{ $note->time }}@endif">
+                    @error('time')
 
-                    @if ($errors->any())
+                    <p class="error-message">{{$message}}</p>
+
+                    @enderror
+
+
+                @if ($errors->any())
                         <x-alert type="error">
                         </x-alert>
                     @endif

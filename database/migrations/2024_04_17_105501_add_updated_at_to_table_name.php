@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->mediumText('content');
-            $table->timestamp('time')->nullable(); // Permitir valores nulos en el campo "time"
+        Schema::table('table_name', function (Blueprint $table) {
+            //
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::table('table_name', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -7,6 +7,7 @@
             <tr>
                 <th>Title</th>
                 <th>Content</th>
+                <th>Time</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -32,13 +33,16 @@
                     data: function (d) {
                         // Aquí se obtiene el valor del campo de búsqueda específico dentro de la columna correspondiente
                         d.search = {
-                            value: $('.searchField').val()
+                            title: $('.searchField').eq(0).val(), // Valor de búsqueda para el título
+                            content: $('.searchField').eq(1).val(), // Valor de búsqueda para el contenido
+                            time: $('.searchField').eq(2).val(), // Valor de búsqueda para la fecha
                         };
                     }
                 },
                 "columns": [
                     { "data": "title", "searchable": true },
                     { "data": "content", "searchable": true },
+                    { "data": "time", "searchable": true },
             // Aquí puedes agregar más columnas si es necesario
                     {
                         "data": null,
@@ -64,11 +68,11 @@
 
 // Aplicar un filtro para cada la primera columna
             $('#myTable thead th').each(function (index) {
-                if (index === 0) { // Agregar campo de búsqueda solo para la primera columna
+                // if (index === 0) { // Agregar campo de búsqueda solo para la primera columna
                     var title = $(this).text();
                     var uniqueId = 'searchField_' + index; // Generar un id único para el campo de búsqueda
                     $(this).html('<input type="search" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
-                }
+                // }
             });
 
 // Evento para aplicar los filtros solo en la primera columna
@@ -77,7 +81,7 @@
                 $('input', this.header()).on('keyup change', function () {
                     if (that.search() !== this.value) {
                         that.search(this.value).draw();
-                        console.log('Valor del filtro para la columna "content":', $('.searchField').eq(1).val()); // Verificar el valor del filtro para la columna "content"
+                        console.log($('.searchField').val());
                     }
                 });
             });

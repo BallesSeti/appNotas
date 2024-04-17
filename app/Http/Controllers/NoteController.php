@@ -26,18 +26,23 @@ class NoteController extends Controller
 
     public function store(Request $request)
     {
+        \Log::info('Contenido de la solicitud:', $request->all());
+
         $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'time' => 'nullable|date',
         ]);
 
         Note::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
+            'time' => $request->input('time'), // Asignar el valor del campo "time" del formulario
         ]);
 
         return redirect('notas');
     }
+
 
     public function edit($id)
     {
@@ -53,11 +58,13 @@ class NoteController extends Controller
         $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'time' => 'required',
         ]);
 
         $note->update([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
+            'time' => $request->input('time'),
         ]);
 
         return redirect('notas');
@@ -78,25 +85,31 @@ class NoteController extends Controller
     {
         $start = $request->input('start', 0);
         $length = $request->input('length', 10);
-        $searchValue = $request->input('search.value');
-
-        \Log::info('Valor del filtro de búsqueda:', ['value' => $searchValue]); // Agregar log para imprimir el valor del filtro
+        $searchTitle = $request->input('search.title');
+        $searchContent = $request->input('search.content');
+        $searchTime = $request->input('search.time');
 
         $query = Note::query();
 
-        // Aplicar el filtro de búsqueda si hay un valor de búsqueda
-        if (!empty($searchValue)) {
-            $query->where(function ($query) use ($searchValue) {
-                $query->where('title', 'like', '%' . $searchValue . '%')
-                    ->orWhere('content', 'like', '%' . $searchValue . '%');
-            });
+        // Aplicar filtros de búsqueda si hay valores
+        if (!empty($searchTitle)) {
+            $query->where('title', 'like', '%' . $searchTitle . '%');
+        }
+
+        if (!empty($searchContent)) {
+            $query->where('content', 'like', '%' . $searchContent . '%');
+        }
+
+        if (!empty($searchTime)) {
+            // Si estás utilizando Carbon, puedes convertir la cadena de fecha a un objeto Carbon para realizar la comparación
+            $query->whereDate('time', '=', $searchTime);
         }
 
         $totalRecords = $query->count();
+        $filteredRecords = $query->count();
 
         // Aplicar paginación y límites después de aplicar el filtro
-        $filteredRecords = $query->count();
-        $data = $query->select('id', 'title', 'content')
+        $data = $query->select('id', 'title', 'content', 'time')
             ->skip($start)
             ->take($length)
             ->get();
