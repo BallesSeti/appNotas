@@ -69,17 +69,31 @@ class NoteController extends Controller
 
         return redirect('notas');
     }
-
+/*
     public function destroy($id)
     {
         error_log("Entramos en el metodo destroy");
         /*
         $note = Note::findOrFail($id);
         $note->delete();
-        */
+        *//*
         DB::table('notes')->where('id', $id)->delete();
         return redirect()->route('notes.index');
     }
+*/
+    public function destroy($id)
+    {
+        $note = Note::findOrFail($id);
+
+        // Marcar la nota como eliminada estableciendo la fecha en la columna "deleted_at"
+        $note->update([
+            'deleted_at' => now()
+            //console.log("Marcada");
+        ]);
+
+        return redirect()->route('notes.index');
+    }
+
 
     public function getData(Request $request)
     {
@@ -121,4 +135,5 @@ class NoteController extends Controller
             "data" => $data
         ]);
     }
+
 }

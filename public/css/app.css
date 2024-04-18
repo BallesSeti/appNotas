@@ -319,5 +319,40 @@ body {
     font-weight: bold;
     font-style: italic;
 }
+/* styles.css */
 
-/*# sourceMappingURL=app.css.map */
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.filtro-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el menú desplegable */
+#filtro-header {
+    cursor: pointer;
+}
+
+.filtro-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+}
+
+.filtro-menu li {
+    margin-bottom: 10px;
+}
+
+/* Mostrar el menú al hacer clic */
+#filtro-header.clicked + .filtro-menu {
+    display: block;
+}

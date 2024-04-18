@@ -2,26 +2,42 @@
     {{--VITE Carga de archivos dinámicas--}}
 
     <main class="content">
-        <table id="myTable" class="display">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Time</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{-- Aquí se agregarán las filas de la tabla con los datos de las notas --}}
+
+        <div class="filtro-container">
+            <h2 id="filtro-header">FILTROS DE BÚSQUEDA</h2>
+            <ul class="filtro-menu">
+                <li><input type="search" id="searchField_1" class="searchField" placeholder="Search...Title"/></li>
+                <li><input type="search" id="searchField_2" class="searchField" placeholder="Search...Content"/></li>
+                <li><input type="date" id="searchField_3" class="searchField"></li>
+               <li><label><input type="checkbox"> Mostrar notas en la papelera</label></li>
+            </ul>
+            {{--  <button class="buscar-button">Buscar Ahora</button>--}}
+         </div>
+
+
+         <script src="{{ asset('js/script.js') }}"></script>
+
+         <table id="myTable" class="display">
+             <thead>
+             <tr>
+                 <th>Title</th>
+                 <th>Content</th>
+                 <th>Time</th>
+                 <th>Actions</th>
+             </tr>
+             </thead>
+             <tbody>
+             {{-- Aquí se agregarán las filas de la tabla con los datos de las notas --}}
             </tbody>
         </table>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-
-     <script>
+    <script>console.log("cargado index");
         $(document).ready(function () {
             var table = $('#myTable').DataTable({
                 "paging": true, // Habilitar paginación
@@ -31,11 +47,11 @@
                     url: "{{ route('data.get') }}",
                     type: 'GET',
                     data: function (d) {
-                        // Aquí se obtiene el valor del campo de búsqueda específico dentro de la columna correspondiente
+                        // Aquí se obtiene el valor de los campos de búsqueda dentro del contenedor de filtros
                         d.search = {
-                            title: $('.searchField').eq(0).val(), // Valor de búsqueda para el título
-                            content: $('.searchField').eq(1).val(), // Valor de búsqueda para el contenido
-                            time: $('.searchField').eq(2).val(), // Valor de búsqueda para la fecha
+                            title: $('#searchField_1').val(), // Valor de búsqueda para el título
+                            content: $('#searchField_2').val(), // Valor de búsqueda para el contenido
+                            time: $('#searchField_3').val(), // Valor de búsqueda para la fecha
                         };
                     }
                 },
@@ -43,7 +59,7 @@
                     { "data": "title", "searchable": true },
                     { "data": "content", "searchable": true },
                     { "data": "time", "searchable": true },
-            // Aquí puedes agregar más columnas si es necesario
+                    // Aquí puedes agregar más columnas si es necesario
                     {
                         "data": null,
                         "render": function (data, type, row) {
@@ -63,30 +79,10 @@
                 }
             });
 
-// Obtener el número total de campos de búsqueda
-            //var totalSearchFields = $('#myTable thead th').length;
-
-// Aplicar un filtro para cada la primera columna
-            $('#myTable thead th').each(function (index) {
-                // if (index === 0) { // Agregar campo de búsqueda solo para la primera columna
-                    var title = $(this).text();
-                    var uniqueId = 'searchField_' + index; // Generar un id único para el campo de búsqueda
-                    $(this).html('<input type="search" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
-                // }
+            // Evento para aplicar los filtros en los campos de búsqueda
+            $('.searchField').on('keyup change', function () {
+                table.draw(); // Volver a dibujar la tabla con los nuevos filtros
             });
-
-// Evento para aplicar los filtros solo en la primera columna
-            table.column(0).every(function () {
-                var that = this;
-                $('input', this.header()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                        console.log($('.searchField').val());
-                    }
-                });
-            });
-
-
 
             // Evento clic para el botón de editar
             $('#myTable').on('click', '.editBtn', function () {
@@ -120,5 +116,7 @@
                 }
             });
         });
+
     </script>
+
 </x-layout>

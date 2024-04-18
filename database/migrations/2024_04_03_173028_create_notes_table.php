@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->mediumText('content');
             $table->timestamp('time')->nullable(); // Permitir valores nulos en el campo "time"
+            $table->timestamp('deleted_at')->nullable(); // Nueva columna para marcar notas eliminadas
         });
     }
 

@@ -6,7 +6,7 @@
     <div class="cards">
         <div class="card card-center">
             <div class="card-body">
-                <h1>Nueva nota</h1>
+                <h1>{{ isset($note) ? "Editar Nota" : "Crear Nota" }}</h1>
 
                 <form
                     action="{{ isset($note) ? route('notes.update', $note->id) : route('notes.store') }}"
