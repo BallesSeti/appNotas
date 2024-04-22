@@ -14,6 +14,12 @@
         <nav class="main-nav">
             <ul class="main-nav-list">
                 <li class="main-nav-item">
+                    <a href="{{route('users.index')}}" class="main-nav-link">
+                            <i class="icon icon-th-list"></i>
+                        <span>Mostrar Usuarios</span>
+                    </a>
+                </li>
+                <li class="main-nav-item">
                     <a href="{{route('notes.index')}}" class="main-nav-link">
                         <i class="icon icon-th-list"></i>
                         <span>Ver notas</span>

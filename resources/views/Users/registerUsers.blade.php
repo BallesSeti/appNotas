@@ -6,7 +6,7 @@
         <div class="cards">
             <div class="card card-center">
                 <div class="card-body">
-                    <h1>{{ isset($note) ? "Editar Nota" : "Crear Nota" }}</h1>
+                    <h1>Reguistrar Usuario</h1>
 
                     <form
                         action="{{ isset($note) ? route('notes.update', $note->id) : route('notes.store') }}"
@@ -22,25 +22,25 @@
                          --}}
                         @csrf
 
-                        <label for="title" class="field-label">Título: </label>
-                        <input type="text" name="title" id="title" class="field-input " value="@if(isset($note)){{ $note->title }}@endif">
+                        <label for="name" class="field-label">Name : </label>
+                        <input type="text" name="name" id="name" class="field-input ">
                         {{-- Control de errores por cada campo--}}
-                        @error('title')
+                        @error('name')
 
                         <p class="error-menssage">{{$message}}</p>
 
                         @enderror
 
-                        <label for="content" class="field-label">Contenido:</label>
-                        <textarea name="content" id="content" rows="10" class="field-textarea">@if(isset($note)){{ $note->content }}@endif</textarea>
+                        <label for="lastName" class="field-label">Last Name:</label>
+                        <textarea name="lastName" id="lastName" rows="10" class="field-textarea"></textarea>
                         @error('content')
 
                         <p class="error-menssage">{{$message}}</p>
 
 
                         @enderror
-                        <label for="time" class="field-label">Fecha:</label>
-                        <input type="date" name="time" id="time" class="field-input" value="@if(isset($note)){{ $note->time }}@endif">
+                        <label for="birthdate" class="field-label">Birthdate:</label>
+                        <input type="date" name="birthdate" id="birthdate" class="field-input">
                         @error('time')
 
                         <p class="error-message">{{$message}}</p>
@@ -54,7 +54,7 @@
                         @endif
 
 
-                        <button type="submit" class="btn btn-primary">{{ isset($note) ? 'Editar nota' : 'Crear nota' }}</button>
+                        <button type="submit" class="btn btn-primary">Reguister</button>
                     </form>
                 </div>
             </div>

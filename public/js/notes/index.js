@@ -1,20 +1,81 @@
 console.log("cargado index");
-$(document).ready(function () {
-    var table = $('#myTable').DataTable({
+
+// Carga el script user.js utilizando la etiqueta <script>
+var script = document.createElement('script');
+script.src = './user.js';
+document.head.appendChild(script);
+
+$(document).ready(function() {
+
+    var url = document.getElementById('data').dataset.url;
+
+    $('#tableUsers').DataTable({
         "paging": true, // Habilitar paginación
         "processing": true,
         "serverSide": true, // Habilitar el modo de procesamiento del lado del servidor
         "ajax": {
-            url: "{{ route('data.get') }}",
+            url: url,
+            type: 'GET',
+        },
+        "columns": dameColumnas(), // Llama a la función dameColumnas para obtener las columnas
+        "language": {
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+            "infoFiltered": "(filtrado de _MAX_ entradas totales)"
+        }
+    });
+
+    // Evento para aplicar los filtros en los campos de búsqueda
+    $('.searchField').on('keyup change', function () {
+        table.draw(); // Volver a dibujar la tabla con los nuevos filtros
+    });
+
+    // Evento clic para el botón de editar
+    $('#tableUsers').on('click', '.editBtn', function () {
+        var noteId = $(this).data('id');
+        // Aquí puedes redirigir a la página de edición de la nota
+        console.log(noteId);
+        window.location.href = '/notas/' + noteId + '/editar';
+    });
+
+    // Evento clic para el botón de eliminar
+    $('#tableUsers').on('click', '.deleteBtn', function () {
+        var noteId = $(this).data('id');
+
+        if (confirm('¿Estás seguro de que deseas eliminar esta nota?')) {
+            $.ajax({
+                url: '/notas/' + noteId,
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(result) {
+                    console.log("Success: ", result);
+                    table.ajax.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: ", error);
+                    table.ajax.reload();
+                }
+
+            });
+        }
+    });
+
+    $('#tableNotas').DataTable({
+        "paging": true, // Habilitar paginación
+        "processing": true,
+        "serverSide": true, // Habilitar el modo de procesamiento del lado del servidor
+        "ajax": {
+            url: url,
             type: 'GET',
             data: function (d) {
-                // Aquí se obtiene el valor del campo de búsqueda específico dentro de la columna correspondiente
-
-                //Se puede coger
+                // Aquí se obtiene el valor de los campos de búsqueda dentro del contenedor de filtros
                 d.search = {
-                    title: $('.searchField').eq(0).val(), // Valor de búsqueda para el título
-                    content: $('.searchField').eq(1).val(), // Valor de búsqueda para el contenido
-                    time: $('.searchField').eq(2).val(), // Valor de búsqueda para la fecha
+                    title: $('#searchField_1').val(), // Valor de búsqueda para el título
+                    content: $('#searchField_2').val(), // Valor de búsqueda para el contenido
+                    time: $('#searchField_3').val(), // Valor de búsqueda para la fecha
                 };
             }
         },
@@ -42,36 +103,13 @@ $(document).ready(function () {
         }
     });
 
-    // Aplicar un filtro
-    $('#myTable thead th').each(function (index) {
-
-        if (index === 0 || index === 1) { // Agregar campo de búsqueda solo para la primera columna
-            var title = $(this).text();
-            var uniqueId = 'searchField_' + index; // Generar un id único para el campo de búsqueda
-            $(this).html('<input type="search" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
-        }
-
-        if (index === 2) { // Agregar campo de búsqueda solo para la primera columna
-            var title = $(this).text();
-            var uniqueId = 'searchField_' + index; // Generar un id único para el campo de búsqueda
-            $(this).html('<input type="date" id="' + uniqueId + '" class="searchField" placeholder="Search ' + title + '" aria-controls="myTable" />');
-        }
-
-    });
-
-    // Evento para aplicar los filtros solo en la primera columna
-    table.column(0).every(function () {
-        var that = this;
-        $('input', this.header()).on('keyup change', function () {
-            if (that.search() !== this.value) {
-                that.search(this.value).draw();
-                console.log($('.searchField').val());
-            }
-        });
+    // Evento para aplicar los filtros en los campos de búsqueda
+    $('.searchField').on('keyup change', function () {
+        table.draw(); // Volver a dibujar la tabla con los nuevos filtros
     });
 
     // Evento clic para el botón de editar
-    $('#myTable').on('click', '.editBtn', function () {
+    $('#tableNotas').on('click', '.editBtn', function () {
         var noteId = $(this).data('id');
         // Aquí puedes redirigir a la página de edición de la nota
         console.log(noteId);
@@ -79,7 +117,7 @@ $(document).ready(function () {
     });
 
     // Evento clic para el botón de eliminar
-    $('#myTable').on('click', '.deleteBtn', function () {
+    $('#tableNotas').on('click', '.deleteBtn', function () {
         var noteId = $(this).data('id');
 
         if (confirm('¿Estás seguro de que deseas eliminar esta nota?')) {

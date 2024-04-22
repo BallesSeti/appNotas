@@ -21,7 +21,7 @@ Route::get('/home', function () {
 });
 
 //Routa , [Controlador,Metodo]
-Route::redirect('/', '/notas');
+Route::redirect('/', '/users/register');
 Route::get('/notas',[\App\Http\Controllers\NoteController::class,'index'])->name('notes.index');
 //Route::get('/notas/{id}',[\App\Http\Controllers\NoteController::class,'show']);
 Route::delete('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'destroy'])->name('notes.destroy');
@@ -31,6 +31,8 @@ Route::get('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'e
 Route::put('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::patch('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::get('/notas/all', [\App\Http\Controllers\NoteController::class,'getData'])->name('data.get');
+Route::get('/users',[\App\Http\Controllers\UserController::class,'index'])->name('users.index');
+Route::get('/users/register',[\App\Http\Controllers\UserController::class,'reguister'])->name('users.register');
 
 /*
 //Aqui le estas indicando que solo se pueden utilizar numeros
