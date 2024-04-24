@@ -31,6 +31,12 @@
                         <span>Nueva nota</span>
                     </a>
                 </li>
+                <li class="main-nav-item active">
+                    <a href="{{route('users.register')}}" class="main-nav-link">
+                        <i class="icon icon-pen"></i>
+                        <span>Nueva user (Temporal)</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>

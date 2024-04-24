@@ -135,5 +135,4 @@ class NoteController extends Controller
             "data" => $data
         ]);
     }
-
 }

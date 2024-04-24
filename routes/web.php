@@ -30,7 +30,8 @@ Route::post('/notas',[\App\Http\Controllers\NoteController::class,'store'])->nam
 Route::get('/notas/{id}/editar', [\App\Http\Controllers\NoteController::class,'edit'])->name('notes.edit');
 Route::put('/notas/{id}/', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
 Route::patch('/notas/{id}', [\App\Http\Controllers\NoteController::class,'update'])->name('notes.update');
-Route::get('/notas/all', [\App\Http\Controllers\NoteController::class,'getData'])->name('data.get');
+Route::get('/notas/all', [\App\Http\Controllers\NoteController::class,'getData'])->name('data.get.note');
+Route::get('/user/all', [\App\Http\Controllers\UserController::class,'getData'])->name('data.get.user');
 Route::get('/users',[\App\Http\Controllers\UserController::class,'index'])->name('users.index');
 Route::get('/users/register',[\App\Http\Controllers\UserController::class,'reguister'])->name('users.register');
 
