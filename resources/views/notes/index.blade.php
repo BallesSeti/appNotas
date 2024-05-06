@@ -14,6 +14,10 @@
         </div>
         <script src="{{ asset('js/script.js') }}"></script>
 
+        <button id="impNotas">Importar Notas</button>
+        <button id="impNotas">Exportar Notas</button>
+        {{--Ahy que imporar y exportar notas "Matwebsizelaravel"--}}
+
          <table id="tableNotas" class="tabla">
              <thead>
              <tr>

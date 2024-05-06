@@ -10,7 +10,7 @@ function dameColumnas() {
             "data": null,
             "render": function (data, type, row) {
                 // Aquí se genera el HTML para los botones de editar y eliminar
-                return '<button class="editBtn" data-id="' + data.id + '">Edit</button>' +
+                return '<button class="editBtn" data-id="' + data.id + '">Imprimir</button>' +
                     '<button class="deleteBtn" data-id="' + data.id + '">Delete</button>';
             }
         }
@@ -26,7 +26,7 @@ document.querySelectorAll('.searchField').forEach(function(input) {
     input.addEventListener('keyup', refreshTable);
     input.addEventListener('change', refreshTable);
 });
-/*
+
 // Evento clic para el botón de editar
 document.getElementById('tableUsers').addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('editBtn')) {
@@ -36,7 +36,7 @@ document.getElementById('tableUsers').addEventListener('click', function(event) 
         window.location.href = '/notas/' + noteId + '/editar';
     }
 });
-
+/*
 // Evento clic para el botón de eliminar
 document.getElementById('tableUsers').addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('deleteBtn')) {

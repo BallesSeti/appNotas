@@ -15,6 +15,8 @@ console.log("Cargando notas.js");
         }
     ];
 }
+
+ //TODO: SETEAR LA VARIABLE URL : var url = {{}}
 // Función para aplicar los filtros en los campos de búsqueda
 function refreshTable() {
     $('#tableNotas').DataTable().draw();
